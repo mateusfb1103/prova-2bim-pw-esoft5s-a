@@ -50,9 +50,22 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   
     function calculateDaysAgo(date) {
+      if (!date) {
+        return "Data indisponível";
+      }
+      
       const [dateStr, hourStr] = date.split(" ");
+      if (!dateStr || !hourStr) {
+        return "Data indisponível";
+      }
+      
       const [day, month, year] = dateStr.split("/").map(Number);
       const [hour, minute, second] = hourStr.split(":").map(Number);
+      
+      if (!day || !month || !year || !hour || !minute || !second) {
+        return "Data indisponível";
+      }
+      
       const publishDate = new Date(year, month - 1, day, hour, minute, second);
       const now = new Date();
       const diffMillis = now - publishDate;
@@ -83,7 +96,7 @@ document.addEventListener("DOMContentLoaded", () => {
           paginator.appendChild(li);
         }
       } else {
-        for (let i = Number(currentPage) - 4; i <= Number(currentPage) + 5; i++) {
+        for (let i = Number(currentPage) - 5; i <= Number(currentPage) + 4; i++) {
           const li = document.createElement("li");
           if (i == currentPage) li.classList.add("active");
           li.classList.add("page-item");
@@ -194,3 +207,4 @@ document.addEventListener("DOMContentLoaded", () => {
       dialog.setAttribute("open", true);
     }
   }
+  
